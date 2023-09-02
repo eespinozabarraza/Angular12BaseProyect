@@ -31,7 +31,8 @@ jobs:
 
       - name: Create ZIP artifact
         run: |
-          zip -r angular-app.zip dist
+          cd dist
+          zip -r ../angular-app.zip dist
         working-directory: ${{ github.workspace }}
 
       - name: Upload artifact for deployment job
@@ -55,7 +56,7 @@ jobs:
           path: /tmp
 
       - name: Unzip artifact
-        run: unzip /tmp/angular-app.zip -d /tmp
+        run: unzip /tmp/angular-app.zip -d /tmp/dist
 
       - name: Configurar variables de entorno
         run: |
