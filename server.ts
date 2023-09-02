@@ -43,6 +43,8 @@ export function app(): express.Express {
 function run(): void {
   const port = process.env['PORT'] || 8080;
   const host = process.env['HOST'] || '0.0.0.0';
+  const host2 = process.env['WEBSITE_HOSTNAME']
+  console.log("HOST", host2)
   const server = app();
   server.listen(port, () => {
     console.log(`Node Express server listening on http://${host}:${port}`);
