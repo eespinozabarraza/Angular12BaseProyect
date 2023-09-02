@@ -11,7 +11,10 @@ import { existsSync } from 'fs';
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
-  const distFolder = join(process.cwd(), 'dist/Angular12BaseProyect/browser');
+  
+  let distFolder = join(process.cwd(), "browser");
+  if (!existsSync(distFolder)) {
+    distFolder = join(process.cwd(), 'dist/Angular12BaseProyect/browser');};
   const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
 
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
@@ -39,11 +42,10 @@ export function app(): express.Express {
 
 function run(): void {
   const port = process.env['PORT'] || 4000;
-
-  // Start up the Node server
+  const host = process.env['HOST'] || '0.0.0.0';
   const server = app();
   server.listen(port, () => {
-    console.log(`Node Express server listening on http://localhost:${port}`);
+    console.log(`Node Express server listening on http://${host}:${port}`);
   });
 }
 

@@ -1,0 +1,70 @@
+.landing-container {
+    width: 100vw;
+    height: 100vh;
+    margin: 0 auto; /* Centrar horizontalmente */
+    background-color: #f0f0f0; /* Color de fondo de ejemplo */
+}
+
+/* Estilos para hacerlo responsive en pantallas más pequeñas */
+@media (max-width: 768px) {
+    .landing-container {
+        width: 100%; /* Ancho del 100% para pantallas más pequeñas */
+        padding: 10px; /* Espaciado interno reducido */
+    }
+    .vertical-container{
+        height: 25vh !important;
+        
+    }
+    
+}
+.box-color-container{
+    width: 500px;
+}
+.box-nm-container{
+    background-color: #F4F2DE;
+    border: 15px #7C9D96 solid;
+    width: 250px;
+    height: 250px;
+    border-radius: 10px;
+}
+
+.vertical-container{
+    padding: 16px;
+    height: 100vh;
+    
+}
+.first{
+    background-color: #A1CCD1;
+    width: 50%;
+    border-top: 1px solid; 
+    border-bottom: 1px solid; 
+    border-left: 1px solid;
+    height: 200px;
+
+}
+.second{
+    background-color: #F4F2DE;
+    width: 30%;
+    border-top: 1px solid; 
+    border-bottom: 1px solid; 
+    height: 200px;
+}
+.third{
+    background-color: #E9B384;
+    width: 20%;
+    border-top: 1px solid; 
+    border-bottom: 1px solid; 
+    height: 200px;
+}
+.fourth{
+    background-color: #7C9D96;
+    width: 10%;
+    border-top: 1px solid; 
+    border-bottom: 1px solid; 
+    border-right: 1px solid;
+    height: 200px;
+}
+.textNM{
+    font-size: 1000%;
+    color: #7C9D96;
+}
