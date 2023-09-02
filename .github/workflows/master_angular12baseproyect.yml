@@ -21,17 +21,24 @@ jobs:
         with:
           node-version: '16.x'
 
-      - name: npm install, build, and test
+      - name: Install dependencies
         run: |
           npm install
-          npm run build:ssr --if-present
        
+      - name: Build Angular app
+        run: |
+          npm run build:ssr --if-present
+
+      - name: Create ZIP artifact
+        run: |
+          zip -r angular-app.zip dist
+        working-directory: ${{ github.workspace }}
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
-          name: angular12-base-proyect
-          path: .
+          name: angular-artifact
+          path: angular-app.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -41,16 +48,26 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
+      - name: Download ZIP artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: angular-artifact
+          path: /tmp
+
+      - name: Unzip artifact
+        run: unzip /tmp/angular-app.zip -d /tmp
+
+      - name: Configure Azure Web App
+        run: |
+          # Cambia "Angular12BaseProyect" al nombre de tu Azure Web App
+          az webapp config appsettings set --resource-group AngularSSRDeployTest --name Angular12BaseProyect --settings WEBSITE_RUN_FROM_PACKAGE=1
+
+
       - name: Configurar variables de entorno
         run: |
           echo "PORT=4000"
           echo "WEBSITES_PORT=4000"
           echo "DEBUG=TRUE"
-          
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v2
-        with:
-          name: angular12-base-proyect
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
@@ -59,7 +76,8 @@ jobs:
           app-name: 'Angular12BaseProyect'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D8973261C1FE4B80A04595E238EFC68D }}
-          package: .
+          package: /tmp/dist
+
       - name: Ejecutar comando especial
         run: |
           node /home/site/wwwroot/dist/Angular12BaseProyect/server/main.js
