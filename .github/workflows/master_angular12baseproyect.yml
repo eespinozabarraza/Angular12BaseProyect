@@ -75,4 +75,4 @@ jobs:
 
       - name: Ejecutar comando especial
         run: |
-          node /home/site/wwwroot/Angular12BaseProyect/server/main.js
+          node /site/wwwroot/Angular12BaseProyect/server/main.js
