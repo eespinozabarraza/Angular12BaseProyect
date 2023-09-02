@@ -24,6 +24,9 @@ export function app(): express.Express {
 
   server.set('view engine', 'html');
   server.set('views', distFolder);
+  server.post('/hola', (req, res) => {
+    res.send('Hello World!')
+  })
 
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });
