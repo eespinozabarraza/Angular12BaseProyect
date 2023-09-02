@@ -59,7 +59,7 @@ jobs:
 
       - name: Configure Azure Web App
         run: |
-          # Cambia "Angular12BaseProyect" al nombre de tu Azure Web App
+          az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
           az webapp config appsettings set --resource-group AngularSSRDeployTest --name Angular12BaseProyect --settings WEBSITE_RUN_FROM_PACKAGE=1
 
 
