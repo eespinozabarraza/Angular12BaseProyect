@@ -31,7 +31,7 @@ jobs:
 
       - name: Create ZIP artifact
         run: |
-          zip -r angular-app.zip Angular12BaseProyect
+          zip -r angular-app.zip dist
         working-directory: ${{ github.workspace }}
 
       - name: Upload artifact for deployment job
@@ -55,7 +55,7 @@ jobs:
           path: /tmp
 
       - name: Unzip artifact
-        run: unzip /tmp/angular-app.zip -d /tmp/dist
+        run: unzip /tmp/angular-app.zip -d /tmp
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
@@ -64,6 +64,6 @@ jobs:
           app-name: 'Angular12BaseProyect'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D8973261C1FE4B80A04595E238EFC68D }}
-          package: /tmp/dist
+          package: /tmp/dist/Angular12BaseProyect
 
       
