@@ -55,7 +55,7 @@ jobs:
           path: /tmp
 
       - name: Unzip artifact
-        run: unzip /tmp/angular-app.zip -d /tmp/dist
+        run: unzip /tmp/angular-app.zip -d /tmp
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
