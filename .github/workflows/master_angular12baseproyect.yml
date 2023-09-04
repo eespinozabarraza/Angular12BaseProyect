@@ -55,7 +55,8 @@ jobs:
           path: /tmp
 
       - name: Unzip artifact
-        run: unzip /tmp/angular-app.zip -d /tmp
+        run: unzip /tmp/angular-app.zip -d /tmp/dist
+
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
@@ -64,6 +65,6 @@ jobs:
           app-name: 'Angular12BaseProyect'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D8973261C1FE4B80A04595E238EFC68D }}
-          package: /tmp
+          package: /tmp/dist
 
       
