@@ -64,6 +64,6 @@ jobs:
           app-name: 'Angular12BaseProyect'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D8973261C1FE4B80A04595E238EFC68D }}
-          package: /tmp/dist
+          package: /tmp/dist/Angular12BaseProyect
 
       
