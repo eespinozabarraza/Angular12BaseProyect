@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Location, isPlatformBrowser } from '@angular/common';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-landing',
@@ -9,8 +9,12 @@ import { HttpClient } from '@angular/common/http';
 })
 export class LandingComponent implements OnInit {
 private API_ROUTE:string = '';
-  constructor(private location:Location, private httpClient:HttpClient) { 
+
+public testBrowser  : boolean;
+public data         : any;
+  constructor(private location:Location, private httpClient:HttpClient, @Inject(PLATFORM_ID) platformId: string) { 
     let _relative_path = this.location.path();
+    this.testBrowser = isPlatformBrowser(platformId);
     this.location.subscribe(data=>{
       if(data){
         let path = _relative_path;
@@ -21,12 +25,19 @@ private API_ROUTE:string = '';
    }
 
   ngOnInit(): void {
-    this.getAPI().subscribe(resp=>{
+    if (this.testBrowser) { this.getAPI().subscribe(resp=>{
       console.log(resp)
-    })
+    })}
+   
   }
   getAPI(){
-    return this.httpClient.post(`${this.API_ROUTE}/hola`,{})
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        
+      })
+    };
+    return this.httpClient.post(`/hola`,{}, httpOptions)
   }
 
 }
