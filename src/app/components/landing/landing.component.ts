@@ -12,7 +12,10 @@ private API_ROUTE:string = '';
 
 public testBrowser  : boolean;
 public data         : any;
-  constructor(private location:Location, private httpClient:HttpClient, @Inject(PLATFORM_ID) platformId: string) { 
+  constructor(
+    private location:Location, 
+    private httpClient:HttpClient, 
+    @Inject(PLATFORM_ID) platformId: string) { 
     let _relative_path = this.location.path();
     this.testBrowser = isPlatformBrowser(platformId);
     this.location.subscribe(data=>{
@@ -25,7 +28,8 @@ public data         : any;
    }
 
   ngOnInit(): void {
-    if (this.testBrowser) { this.getAPI().subscribe(resp=>{
+    if (this.testBrowser) { 
+      this.getAPI().subscribe(resp=>{
       console.log(resp)
     })}
    
@@ -37,7 +41,7 @@ public data         : any;
         
       })
     };
-    return this.httpClient.post(`/hola`,{}, httpOptions)
+    return this.httpClient.post(`/get/loveAPI`,{}, httpOptions)
   }
 
 }

@@ -7,14 +7,14 @@ import { join } from 'path';
 import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
 import { existsSync } from 'fs';
-
+const request = require('request');
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
   
   let distFolder = join(process.cwd(), "browser");
   if (!existsSync(distFolder)) {
-    distFolder = join(process.cwd(), 'Angular12BaseProyect/browser');};
+    distFolder = join(process.cwd(), 'dist/Angular12BaseProyect/browser');};
   const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
 
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
@@ -25,8 +25,21 @@ export function app(): express.Express {
   server.set('view engine', 'html');
   server.set('views', distFolder);
   server.post('/hola', (req, res) => {
-    res.send('Hello World!')
+    res.send('Hello World from OTHER BUILD!')
   })
+
+  server.post('/get/loveAPI', (req, res) => {
+    const url = 'https://mocktarget.apigee.net/iloveapis';
+  
+    request.get(url, (error: any, response: any, body: any) => {
+      if (error) {
+        console.error(error);
+        res.status(500).send('Error en la solicitud');
+      } else {
+        res.send(body);
+      }
+    });
+  });
 
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });
@@ -44,13 +57,10 @@ export function app(): express.Express {
 }
 
 function run(): void {
-  const port = process.env['PORT'] || 8080;
-  const host = process.env['HOST'] || '0.0.0.0';
-  const host2 = process.env['WEBSITE_HOSTNAME']
-  console.log("HOST", host2)
+  const port = process.env['PORT'] || 4000;
   const server = app();
   server.listen(port, () => {
-    console.log(`Node Express server listening on http://${host}:${port}`);
+    console.log(`Node Express server listening on PORT: ${port}`);
   });
 }
 
