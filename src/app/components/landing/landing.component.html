@@ -44,7 +44,7 @@
                         </mat-form-field>
                     </div>
                     <div fxLayout="row">
-                        <button mat-icon-button color="warn" (click)="deleteHeader(i)" *ngIf="i === headers.length - 1">
+                        <button mat-mini-fab color="warn" (click)="deleteHeader(i)" *ngIf="i === headers.length - 1">
                             <mat-icon>remove</mat-icon>
                         </button>
                     </div>
@@ -52,7 +52,7 @@
 
                 </div>
 
-                <button mat-fab color="primary" class="custom-button" (click)="addHeader()">
+                <button mat-mini-fab color="primary" class="custom-button" (click)="addHeader()">
                     <mat-icon>add</mat-icon>
                 </button>
             </div>
@@ -81,14 +81,14 @@
                         </mat-form-field>
                     </div>
                     <div fxLayout="row">
-                        <button mat-icon-button color="warn" (click)="deleteXForm(i)" *ngIf="i === xforms.length - 1">
+                        <button mat-mini-fab color="warn" (click)="deleteXForm(i)" *ngIf="i === xforms.length - 1">
                             <mat-icon>remove</mat-icon>
                         </button>
                     </div>
 
 
                 </div>
-                <button mat-fab color="primary" class="custom-button" (click)="addXForm()">
+                <button mat-mini-fab color="primary" class="custom-button" (click)="addXForm()">
                     <mat-icon>add</mat-icon>
                 </button>
             </div>
@@ -101,8 +101,8 @@
         </mat-card-header>
         <mat-card-content>
             <!-- División 4: Ingresa el body en formato JSON -->
-            <div fxLayoutAlign="center"   >
-                <mat-form-field appearance="outline" fxFlex="100" >
+            <div fxLayoutAlign="center">
+                <mat-form-field appearance="outline" fxFlex="100">
                     <mat-label>Ingrese un JSON</mat-label>
                     <input class="body-block" matInput [(ngModel)]="jsonInput" name="jsonInput"
                         placeholder="Ejemplo: {data:{some1:data1, some2:data2,some3:data3}, message:{someMessage1:Message1}}">
@@ -113,31 +113,31 @@
 
     <mat-card class="mat-card-container" fxLayoutAlign="center" fxLayout="column">
         <mat-card-header fxLayoutAlign="center">
-          <mat-card-title>Revisa la consulta y envíala</mat-card-title>
+            <mat-card-title>Revisa la consulta y envíala</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <!-- División 5: Revisa la consulta y envíala -->
-          <div fxLayout="column" fxLayoutAlign="space-between center">
-            <div *ngIf="showData" class="data-box">
-              <!-- Mostrar la data aquí -->
-              {{ consultaData | json }}
+            <!-- División 5: Revisa la consulta y envíala -->
+            <div fxLayout="column" fxLayoutAlign="space-between center">
+                <span *ngIf="showData" class="data-box" fxFlex="100">
+                    <!-- Mostrar la data aquí -->
+                    {{ consultaData | json }}
+                </span>
+                <div fxLayout="row" fxLayoutAlign="center">
+                    <button mat-stroked-button color="primary" (click)="setRequest()">
+                        <mat-icon>settings</mat-icon> SET request
+                    </button>
+                    <button mat-raised-button color="primary" (click)="showQuery()">
+                        <mat-icon>{{ showData ? 'visibility_off' : 'visibility' }}</mat-icon>
+                        {{ showData ? 'Ocultar Consulta' : 'Ver Consulta' }}
+                    </button>
+
+                    <button mat-stroked-button color="primary" (click)="sendRequest()">
+                        <mat-icon>send</mat-icon> Enviar
+                    </button>
+                </div>
             </div>
-            <div fxLayout="row" fxLayoutAlign="center">
-                <button mat-button color="primary" (click)="setRequest()">
-                    <mat-icon>settings</mat-icon> SET request
-                  </button>
-              <button mat-raised-button color="primary" (click)="showQuery()">
-                <mat-icon>{{ showData ? 'visibility_off' : 'visibility' }}</mat-icon>
-                {{ showData ? 'Ocultar Consulta' : 'Ver Consulta' }}
-              </button>
-              
-              <button mat-button color="primary" (click)="sendRequest()">
-                <mat-icon>send</mat-icon> Enviar
-              </button>
-            </div>
-          </div>
         </mat-card-content>
-      </mat-card>
+    </mat-card>
 
 
 

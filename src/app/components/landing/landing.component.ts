@@ -85,7 +85,6 @@ public data         : any;
     if(this.jsonInput!=''){this.DATA.body = this.jsonInput}
     console.log(this.DATA)
   }
-
   sendRequest(): void {
     if (this.testBrowser) { 
       let body = JSON.stringify(this.DATA);

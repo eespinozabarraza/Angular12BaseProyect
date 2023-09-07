@@ -64,4 +64,8 @@
   .data-box{
     max-height: 500px;
     margin: 16px;
+    padding: 16px;
+  }
+  button{
+    margin-left: 8px;
   }
