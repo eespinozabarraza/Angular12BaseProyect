@@ -1,22 +1,149 @@
-<div class="landing-container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between">
-    <div class="element1" fxFlex="50" fxFlex.xs ="0" class="vertical-container" fxLayoutAlign="start start">
-        <div fxLayout="column">
-            <div fxLayout="row" class="box-color-container">
-                <div class="first"></div>
-                <div class="second"></div>
-                <div class="third"></div>
-                <div class="fourth"></div>
+<div fxLayout="column" class="container" fxFlex="100">
+    <mat-card class="mat-card-container" fxLayoutAlign="center" fxLayout="column">
+        <mat-card-header fxLayoutAlign="center">
+            <mat-card-title>Selección de Método y URL</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <!-- División 1: Selecciona Método de consulta y URL -->
+            <div fxLayout="row">
+                <div class="method-container" fxLayoutAlign="start center" fxLayout="column">
+                    <label for="method">Selecciona el método de consulta:</label>
+                    <mat-radio-group [(ngModel)]="selectedMethod" name="method" fxLayout="row">
+                        <mat-radio-button value="GET" fxFlex=50>GET</mat-radio-button>
+                        <mat-radio-button value="POST" fxFlex=50>POST</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <div class="url-container">
+                    <mat-form-field appearance="outline" fxFlex="100">
+                        <mat-label>URL de consulta:</mat-label>
+                        <input matInput [(ngModel)]="apiUrl" name="apiUrl" placeholder="Escribe la URL">
+                    </mat-form-field>
+                </div>
             </div>
-        </div>
-    
-    </div>
-    <div class="element2" fxFlex="50" fxFlex.xs ="0" class="vertical-container" fxLayoutAlign="end end">
-        <div fxLayout="column"  >
-            <div fxLayout="column" class="box-nm-container">
-                <div fxLayoutAlign="start center" fxFlex="50"><span class="textNM">N</span></div>
-                <div fxLayoutAlign="end center" fxFlex="50"><span class="textNM">M</span></div>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="mat-card-container" fxLayoutAlign="center" fxLayout="column">
+        <mat-card-header fxLayoutAlign="center">
+            <mat-card-title>Ingresa los Headers</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <!-- División 2: Ingresa los Headers -->
+            <div class="headers-container">
+                <div *ngFor="let header of headers; let i = index" class="header-item" fxLayout="column">
+                    <div fxLayout="row">
+                        <mat-form-field appearance="outline" fxFlex="60">
+                            <mat-label>Nombre del header</mat-label>
+                            <input matInput [(ngModel)]="header.key" name="headerName{{i}}"
+                                placeholder="Nombre del header">
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Valor del header</mat-label>
+                            <input matInput [(ngModel)]="header.value" name="headerValue{{i}}"
+                                placeholder="Valor del header">
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout="row">
+                        <button mat-icon-button color="warn" (click)="deleteHeader(i)" *ngIf="i === headers.length - 1">
+                            <mat-icon>remove</mat-icon>
+                        </button>
+                    </div>
+
+
+                </div>
+
+                <button mat-fab color="primary" class="custom-button" (click)="addHeader()">
+                    <mat-icon>add</mat-icon>
+                </button>
             </div>
-            
-        </div>
-</div>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="mat-card-container" fxLayoutAlign="center" fxLayout="column">
+        <mat-card-header fxLayoutAlign="center">
+            <mat-card-title>Ingresa los form</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <!-- División 3: Ingresa los x-form -->
+
+            <div class="xforms-container">
+                <div *ngFor="let xform of xforms; let i = index" class="xform-item" fxLayout="column">
+                    <div fxLayout="row">
+                        <mat-form-field appearance="outline" fxFlex="60">
+                            <mat-label>Nombre del form</mat-label>
+                            <input matInput [(ngModel)]="xform.key" name="xformName{{i}}"
+                                placeholder="Nombre del x-form">
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Valor del x-form</mat-label>
+                            <input matInput [(ngModel)]="xform.value" name="xformValue{{i}}"
+                                placeholder="Valor del x-form">
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout="row">
+                        <button mat-icon-button color="warn" (click)="deleteXForm(i)" *ngIf="i === xforms.length - 1">
+                            <mat-icon>remove</mat-icon>
+                        </button>
+                    </div>
+
+
+                </div>
+                <button mat-fab color="primary" class="custom-button" (click)="addXForm()">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="mat-card-container" fxLayoutAlign="center" fxLayout="column">
+        <mat-card-header fxLayoutAlign="center">
+            <mat-card-title>Ingresa el body en formato JSON</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <!-- División 4: Ingresa el body en formato JSON -->
+            <div fxLayoutAlign="center"   >
+                <mat-form-field appearance="outline" fxFlex="100" >
+                    <mat-label>Ingrese un JSON</mat-label>
+                    <input class="body-block" matInput [(ngModel)]="jsonInput" name="jsonInput"
+                        placeholder="Ejemplo: {data:{some1:data1, some2:data2,some3:data3}, message:{someMessage1:Message1}}">
+                </mat-form-field>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="mat-card-container" fxLayoutAlign="center" fxLayout="column">
+        <mat-card-header fxLayoutAlign="center">
+          <mat-card-title>Revisa la consulta y envíala</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <!-- División 5: Revisa la consulta y envíala -->
+          <div fxLayout="column" fxLayoutAlign="space-between center">
+            <div *ngIf="showData" class="data-box">
+              <!-- Mostrar la data aquí -->
+              {{ consultaData | json }}
+            </div>
+            <div fxLayout="row" fxLayoutAlign="center">
+                <button mat-button color="primary" (click)="setRequest()">
+                    <mat-icon>settings</mat-icon> SET request
+                  </button>
+              <button mat-raised-button color="primary" (click)="showQuery()">
+                <mat-icon>{{ showData ? 'visibility_off' : 'visibility' }}</mat-icon>
+                {{ showData ? 'Ocultar Consulta' : 'Ver Consulta' }}
+              </button>
+              
+              <button mat-button color="primary" (click)="sendRequest()">
+                <mat-icon>send</mat-icon> Enviar
+              </button>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+
+
+
+
+
+
+    <!-- División 5: Revisa la consulta y enviala -->
 </div>

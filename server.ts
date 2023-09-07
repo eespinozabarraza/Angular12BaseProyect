@@ -12,6 +12,29 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path')
 // The Express app is exported so that it can be used by serverless Functions.
+
+export interface valueMap{
+  key:string,
+  value:string
+}
+function buildHeader(headers:valueMap[]){
+  let _header: any = {};
+  
+  for (let header of headers) {
+    _header[header.key] = header.value;
+  }
+  return _header;
+
+}
+function buildForm(forms:valueMap[]){
+  let _form: any = {};
+  
+  for (let form of forms) {
+    _form[form.key] = form.value;
+  }
+  return _form;
+
+}
 export function app(): express.Express {
   const server = express();
   
@@ -43,6 +66,64 @@ export function app(): express.Express {
       }
     });
   });
+server.use(express.json());
+server.use(express.urlencoded({extended:true}));
+  
+  server.post('/API/GET', (req, res) => {
+    var url = req.body.url;
+    var headers =req.body.headers!=undefined? buildHeader(req.body.headers):null;
+    var form = req.body.forms!=undefined?buildForm(req.body.forms):null;
+    var body = req.body.body;
+
+  // Aquí puedes implementar la lógica para manejar la solicitud GET
+  // Puedes utilizar los datos recibidos en el cuerpo de la solicitud para construir la respuesta
+
+  // Ejemplo de construcción de la respuesta
+  const response = {
+    message: 'Respuesta exitosa para la solicitud GET',
+    url: url,
+    headers: headers,
+    forms: form,
+    body: body
+  };
+  console.log(response)
+  request.get({url, headers, form}, (error: any, response: any, body: any) => {
+    if (error) {
+      console.error(error);
+      res.status(500).json({messaje:'Error en la solicitud',error});
+    } else {
+      res.status(200).send(body);
+    }
+  });
+  });
+
+  server.post('/API/POST', (req, res) => {
+    var url = req.body.url;
+    var headers =req.body.headers!=undefined? buildHeader(JSON.parse(req.body.headers)):null;
+    var form = req.body.forms!=undefined?buildForm(req.body.forms):null;
+    var body = req.body.body;
+
+  // Aquí puedes implementar la lógica para manejar la solicitud GET
+  // Puedes utilizar los datos recibidos en el cuerpo de la solicitud para construir la respuesta
+
+  // Ejemplo de construcción de la respuesta
+  const response = {
+    message: 'Respuesta exitosa para la solicitud POST',
+    url: url,
+    headers: headers,
+    forms: form,
+    body: body
+  };
+  console.log(response)
+  request.post({url, headers, form}, (error: any, response: any, body: any) => {
+    if (error) {
+      console.error(error);
+      res.status(500).json({messaje:'Error en la solicitud',error});
+    } else {
+      res.status(200).send(body);
+    }
+  });
+  });
 
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });
@@ -61,15 +142,10 @@ export function app(): express.Express {
 
 function run(): void {
   const port = process.env['PORT'] || 4000;
+  const host = process.env['HOST'] || '0.0.0.0';
   const server = app();
-
-  const options = {
-    key: fs.readFileSync(path.join(__dirname, '..', 'browser', 'assets', 'server.key')),
-    cert: fs.readFileSync(path.join(__dirname, '..', 'browser', 'assets', 'server.cert'))
-  };
-
-  https.createServer(options, server).listen(port, () => {
-    console.log(`Node Express server listening on PORT: ${port}`);
+  server.listen(port, () => {
+    console.log(`Node Express server listening on http://${host}:${port}`);
   });
 }
 
