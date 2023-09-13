@@ -9,7 +9,7 @@
     "test": "ng test",
     "dev:ssr": "ng run Angular12BaseProyect:serve-ssr",
     "serve:ssr": "node dist/Angular12BaseProyect/server/main.js",
-    "build:ssr": "ng build && ng run Angular12BaseProyect:server",
+    "build:ssr": "ng build && cp ./web.config ./dist/Angular12BaseProyect &&ng run Angular12BaseProyect:server",
     "prerender": "ng run Angular12BaseProyect:prerender"
   },
   "private": true,
