@@ -37,6 +37,7 @@ public data         : any;
    }
 
   ngOnInit(): void {
+    this.getConfig()
    
    
   }
@@ -101,6 +102,16 @@ public data         : any;
     // Lógica para el botón de éxito
     console.log("Éxito");}
     
+  }
+  getConfig(){
+    this.httpClient.get('/web.config', { responseType: 'text' }).subscribe((data: string) => {
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(data, 'text/xml');
+      const configApplied = xmlDoc.querySelector('appSettings add[key="ConfigApplied"]');
+      if (configApplied) {
+        console.log(configApplied.getAttribute('value'));
+      }
+    });
   }
 
 }
